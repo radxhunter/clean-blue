@@ -15,6 +15,77 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
+export interface IInvoiceClient {
+    create(command: CreateInvoiceCommand): Observable<number>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class InvoiceClient implements IInvoiceClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    create(command: CreateInvoiceCommand): Observable<number> {
+        let url_ = this.baseUrl + "/api/Invoice";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<number>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<number>;
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
 export interface ITodoItemsClient {
     getTodoItemsWithPagination(listId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfTodoItemBriefDto>;
     create(command: CreateTodoItemCommand): Observable<number>;
@@ -651,6 +722,74 @@ export class WeatherForecastClient implements IWeatherForecastClient {
         }
         return _observableOf(null as any);
     }
+}
+
+export class CreateInvoiceCommand implements ICreateInvoiceCommand {
+    nameOfCompanySeller?: string | undefined;
+    nameOfCompanyBuyer?: string | undefined;
+    nip?: string | undefined;
+    paymentByBankTransfer?: boolean;
+    invoiceNumber?: string | undefined;
+    amount?: number;
+    dateOfIssue?: Date;
+    saleDate?: Date;
+    paymentDeadline?: Date;
+
+    constructor(data?: ICreateInvoiceCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.nameOfCompanySeller = _data["nameOfCompanySeller"];
+            this.nameOfCompanyBuyer = _data["nameOfCompanyBuyer"];
+            this.nip = _data["nip"];
+            this.paymentByBankTransfer = _data["paymentByBankTransfer"];
+            this.invoiceNumber = _data["invoiceNumber"];
+            this.amount = _data["amount"];
+            this.dateOfIssue = _data["dateOfIssue"] ? new Date(_data["dateOfIssue"].toString()) : <any>undefined;
+            this.saleDate = _data["saleDate"] ? new Date(_data["saleDate"].toString()) : <any>undefined;
+            this.paymentDeadline = _data["paymentDeadline"] ? new Date(_data["paymentDeadline"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): CreateInvoiceCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateInvoiceCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["nameOfCompanySeller"] = this.nameOfCompanySeller;
+        data["nameOfCompanyBuyer"] = this.nameOfCompanyBuyer;
+        data["nip"] = this.nip;
+        data["paymentByBankTransfer"] = this.paymentByBankTransfer;
+        data["invoiceNumber"] = this.invoiceNumber;
+        data["amount"] = this.amount;
+        data["dateOfIssue"] = this.dateOfIssue ? this.dateOfIssue.toISOString() : <any>undefined;
+        data["saleDate"] = this.saleDate ? this.saleDate.toISOString() : <any>undefined;
+        data["paymentDeadline"] = this.paymentDeadline ? this.paymentDeadline.toISOString() : <any>undefined;
+        return data;
+    }
+}
+
+export interface ICreateInvoiceCommand {
+    nameOfCompanySeller?: string | undefined;
+    nameOfCompanyBuyer?: string | undefined;
+    nip?: string | undefined;
+    paymentByBankTransfer?: boolean;
+    invoiceNumber?: string | undefined;
+    amount?: number;
+    dateOfIssue?: Date;
+    saleDate?: Date;
+    paymentDeadline?: Date;
 }
 
 export class PaginatedListOfTodoItemBriefDto implements IPaginatedListOfTodoItemBriefDto {

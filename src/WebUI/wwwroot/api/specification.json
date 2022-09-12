@@ -6,6 +6,39 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/api/Invoice": {
+      "post": {
+        "tags": [
+          "Invoice"
+        ],
+        "operationId": "Invoice_Create",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateInvoiceCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/TodoItems": {
       "get": {
         "tags": [
@@ -440,6 +473,47 @@
   },
   "components": {
     "schemas": {
+      "CreateInvoiceCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "nameOfCompanySeller": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameOfCompanyBuyer": {
+            "type": "string",
+            "nullable": true
+          },
+          "nip": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentByBankTransfer": {
+            "type": "boolean"
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "dateOfIssue": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "saleDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "paymentDeadline": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "PaginatedListOfTodoItemBriefDto": {
         "type": "object",
         "additionalProperties": false,
