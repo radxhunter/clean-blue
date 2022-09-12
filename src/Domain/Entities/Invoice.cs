@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CleanArchitecture.Domain.Entities;
-public class Invoice
+public class Invoice : BaseAuditableEntity
 {
     public int Id { get; set; }
     public string? NameOfCompanySeller { get; set; }
