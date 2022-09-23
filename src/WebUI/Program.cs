@@ -1,4 +1,6 @@
+using CleanArchitecture.Application.Common.Interfaces;
 using CleanArchitecture.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +52,11 @@ app.MapControllerRoute(
     pattern: "{controller}/{action=Index}/{id?}");
 
 app.MapRazorPages();
+
+app.MapGet("/api/client", async (IApplicationDbContext context, CancellationToken cancellationToken) =>
+{
+    return await context.Clients.ToListAsync(cancellationToken);
+});
 
 app.MapFallbackToFile("index.html"); ;
 
