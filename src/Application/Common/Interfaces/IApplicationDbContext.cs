@@ -8,12 +8,8 @@ public interface IApplicationDbContext
     DbSet<TodoList> TodoLists { get; }
 
     DbSet<TodoItem> TodoItems { get; }
-<<<<<<< HEAD
     DbSet<Product> Products { get; }
-=======
     DbSet<Invoice> Invoices { get; }
-
->>>>>>> origin/main
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

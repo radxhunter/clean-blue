@@ -6,7 +6,39 @@
     "version": "1.0.0"
   },
   "paths": {
-<<<<<<< HEAD
+    "/api/Invoice": {
+      "post": {
+        "tags": [
+          "Invoice"
+        ],
+        "operationId": "Invoice_Create",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateInvoiceCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Product": {
       "get": {
         "tags": [
@@ -34,24 +66,12 @@
           "Product"
         ],
         "operationId": "Product_Create",
-=======
-    "/api/Invoice": {
-      "post": {
-        "tags": [
-          "Invoice"
-        ],
-        "operationId": "Invoice_Create",
->>>>>>> origin/main
         "requestBody": {
           "x-name": "command",
           "content": {
             "application/json": {
               "schema": {
-<<<<<<< HEAD
                 "$ref": "#/components/schemas/AddProductCommand"
-=======
-                "$ref": "#/components/schemas/CreateInvoiceCommand"
->>>>>>> origin/main
               }
             }
           },
@@ -73,7 +93,6 @@
         }
       }
     },
-<<<<<<< HEAD
     "/api/Product/{id}": {
       "get": {
         "tags": [
@@ -164,8 +183,6 @@
         }
       }
     },
-=======
->>>>>>> origin/main
     "/api/TodoItems": {
       "get": {
         "tags": [
@@ -600,32 +617,6 @@
   },
   "components": {
     "schemas": {
-<<<<<<< HEAD
-      "AddProductCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "number": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "quantity": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "decimal"
-=======
       "CreateInvoiceCommand": {
         "type": "object",
         "additionalProperties": false,
@@ -664,7 +655,33 @@
           "paymentDeadline": {
             "type": "string",
             "format": "date-time"
->>>>>>> origin/main
+          }
+        }
+      },
+      "AddProductCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "decimal"
           }
         }
       },
