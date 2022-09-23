@@ -15,18 +15,27 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
+<<<<<<< HEAD
 export interface IProductClient {
     getAll(): Observable<string[]>;
     create(command: AddProductCommand): Observable<number>;
     get(id: number): Observable<string>;
     put(id: number, value: string): Observable<void>;
     delete(id: number): Observable<void>;
+=======
+export interface IInvoiceClient {
+    create(command: CreateInvoiceCommand): Observable<number>;
+>>>>>>> origin/main
 }
 
 @Injectable({
     providedIn: 'root'
 })
+<<<<<<< HEAD
 export class ProductClient implements IProductClient {
+=======
+export class InvoiceClient implements IInvoiceClient {
+>>>>>>> origin/main
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -36,6 +45,7 @@ export class ProductClient implements IProductClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
+<<<<<<< HEAD
     getAll(): Observable<string[]> {
         let url_ = this.baseUrl + "/api/Product";
         url_ = url_.replace(/[?&]$/, "");
@@ -93,6 +103,10 @@ export class ProductClient implements IProductClient {
 
     create(command: AddProductCommand): Observable<number> {
         let url_ = this.baseUrl + "/api/Product";
+=======
+    create(command: CreateInvoiceCommand): Observable<number> {
+        let url_ = this.baseUrl + "/api/Invoice";
+>>>>>>> origin/main
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(command);
@@ -143,6 +157,7 @@ export class ProductClient implements IProductClient {
         }
         return _observableOf(null as any);
     }
+<<<<<<< HEAD
 
     get(id: number): Observable<string> {
         let url_ = this.baseUrl + "/api/Product/{id}";
@@ -293,6 +308,8 @@ export class ProductClient implements IProductClient {
         }
         return _observableOf(null as any);
     }
+=======
+>>>>>>> origin/main
 }
 
 export interface ITodoItemsClient {
@@ -933,6 +950,7 @@ export class WeatherForecastClient implements IWeatherForecastClient {
     }
 }
 
+<<<<<<< HEAD
 export class AddProductCommand implements IAddProductCommand {
     name?: string;
     number?: number | undefined;
@@ -941,6 +959,20 @@ export class AddProductCommand implements IAddProductCommand {
     price?: number;
 
     constructor(data?: IAddProductCommand) {
+=======
+export class CreateInvoiceCommand implements ICreateInvoiceCommand {
+    nameOfCompanySeller?: string | undefined;
+    nameOfCompanyBuyer?: string | undefined;
+    nip?: string | undefined;
+    paymentByBankTransfer?: boolean;
+    invoiceNumber?: string | undefined;
+    amount?: number;
+    dateOfIssue?: Date;
+    saleDate?: Date;
+    paymentDeadline?: Date;
+
+    constructor(data?: ICreateInvoiceCommand) {
+>>>>>>> origin/main
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -951,6 +983,7 @@ export class AddProductCommand implements IAddProductCommand {
 
     init(_data?: any) {
         if (_data) {
+<<<<<<< HEAD
             this.name = _data["name"];
             this.number = _data["number"];
             this.quantity = _data["quantity"];
@@ -962,27 +995,69 @@ export class AddProductCommand implements IAddProductCommand {
     static fromJS(data: any): AddProductCommand {
         data = typeof data === 'object' ? data : {};
         let result = new AddProductCommand();
+=======
+            this.nameOfCompanySeller = _data["nameOfCompanySeller"];
+            this.nameOfCompanyBuyer = _data["nameOfCompanyBuyer"];
+            this.nip = _data["nip"];
+            this.paymentByBankTransfer = _data["paymentByBankTransfer"];
+            this.invoiceNumber = _data["invoiceNumber"];
+            this.amount = _data["amount"];
+            this.dateOfIssue = _data["dateOfIssue"] ? new Date(_data["dateOfIssue"].toString()) : <any>undefined;
+            this.saleDate = _data["saleDate"] ? new Date(_data["saleDate"].toString()) : <any>undefined;
+            this.paymentDeadline = _data["paymentDeadline"] ? new Date(_data["paymentDeadline"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): CreateInvoiceCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateInvoiceCommand();
+>>>>>>> origin/main
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+<<<<<<< HEAD
         data["name"] = this.name;
         data["number"] = this.number;
         data["quantity"] = this.quantity;
         data["description"] = this.description;
         data["price"] = this.price;
+=======
+        data["nameOfCompanySeller"] = this.nameOfCompanySeller;
+        data["nameOfCompanyBuyer"] = this.nameOfCompanyBuyer;
+        data["nip"] = this.nip;
+        data["paymentByBankTransfer"] = this.paymentByBankTransfer;
+        data["invoiceNumber"] = this.invoiceNumber;
+        data["amount"] = this.amount;
+        data["dateOfIssue"] = this.dateOfIssue ? this.dateOfIssue.toISOString() : <any>undefined;
+        data["saleDate"] = this.saleDate ? this.saleDate.toISOString() : <any>undefined;
+        data["paymentDeadline"] = this.paymentDeadline ? this.paymentDeadline.toISOString() : <any>undefined;
+>>>>>>> origin/main
         return data;
     }
 }
 
+<<<<<<< HEAD
 export interface IAddProductCommand {
     name?: string;
     number?: number | undefined;
     quantity?: number | undefined;
     description?: string | undefined;
     price?: number;
+=======
+export interface ICreateInvoiceCommand {
+    nameOfCompanySeller?: string | undefined;
+    nameOfCompanyBuyer?: string | undefined;
+    nip?: string | undefined;
+    paymentByBankTransfer?: boolean;
+    invoiceNumber?: string | undefined;
+    amount?: number;
+    dateOfIssue?: Date;
+    saleDate?: Date;
+    paymentDeadline?: Date;
+>>>>>>> origin/main
 }
 
 export class PaginatedListOfTodoItemBriefDto implements IPaginatedListOfTodoItemBriefDto {

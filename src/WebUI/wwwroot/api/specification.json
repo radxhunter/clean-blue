@@ -6,6 +6,7 @@
     "version": "1.0.0"
   },
   "paths": {
+<<<<<<< HEAD
     "/api/Product": {
       "get": {
         "tags": [
@@ -33,12 +34,24 @@
           "Product"
         ],
         "operationId": "Product_Create",
+=======
+    "/api/Invoice": {
+      "post": {
+        "tags": [
+          "Invoice"
+        ],
+        "operationId": "Invoice_Create",
+>>>>>>> origin/main
         "requestBody": {
           "x-name": "command",
           "content": {
             "application/json": {
               "schema": {
+<<<<<<< HEAD
                 "$ref": "#/components/schemas/AddProductCommand"
+=======
+                "$ref": "#/components/schemas/CreateInvoiceCommand"
+>>>>>>> origin/main
               }
             }
           },
@@ -60,6 +73,7 @@
         }
       }
     },
+<<<<<<< HEAD
     "/api/Product/{id}": {
       "get": {
         "tags": [
@@ -150,6 +164,8 @@
         }
       }
     },
+=======
+>>>>>>> origin/main
     "/api/TodoItems": {
       "get": {
         "tags": [
@@ -584,6 +600,7 @@
   },
   "components": {
     "schemas": {
+<<<<<<< HEAD
       "AddProductCommand": {
         "type": "object",
         "additionalProperties": false,
@@ -608,6 +625,46 @@
           "price": {
             "type": "number",
             "format": "decimal"
+=======
+      "CreateInvoiceCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "nameOfCompanySeller": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameOfCompanyBuyer": {
+            "type": "string",
+            "nullable": true
+          },
+          "nip": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentByBankTransfer": {
+            "type": "boolean"
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "dateOfIssue": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "saleDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "paymentDeadline": {
+            "type": "string",
+            "format": "date-time"
+>>>>>>> origin/main
           }
         }
       },
