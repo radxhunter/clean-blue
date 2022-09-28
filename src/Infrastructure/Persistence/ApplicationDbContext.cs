@@ -34,6 +34,7 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
     public DbSet<Invoice> Invoices => Set<Invoice>();
 
     public DbSet<Product> Products => Set<Product>();
+    public DbSet<Client> Clients => Set<Client>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

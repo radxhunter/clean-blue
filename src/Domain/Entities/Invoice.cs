@@ -17,4 +17,5 @@ public class Invoice : BaseAuditableEntity
     public DateTime DateOfIssue { get; set; }
     public DateTime SaleDate { get; set; }
     public DateTime PaymentDeadline { get; set; }
+    public int Discount { get; set; }
 }
